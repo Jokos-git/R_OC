@@ -1,0 +1,123 @@
+---
+title: "Forest_Plot"
+author: "Kossi Josué  SROUGBO"
+date: "7/25/2021"
+output: word_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+##Librairies and packages
+```{r echo=False}
+install.packages("forestplot")
+install.packages("rmeta")
+library(forestplot)
+library(rmeta)
+library(ggplot2)
+```
+
+##Importation des données
+```{r}
+
+# Cochrane data from the 'rmeta'-package
+cochrane_from_rmeta <- 
+  structure(list(
+    mean  = c(NA, NA, 0.578, 0.165, 0.246, 0.700, 0.348, 0.139, 1.017, NA, 0.531), 
+    lower = c(NA, NA, 0.372, 0.018, 0.072, 0.333, 0.083, 0.016, 0.365, NA, 0.386),
+    upper = c(NA, NA, 0.898, 1.517, 0.833, 1.474, 1.455, 1.209, 2.831, NA, 0.731)),
+    .Names = c("mean", "lower", "upper"), 
+    row.names = c(NA, -11L), 
+    class = "data.frame")
+
+tabletext1 <- cbind(
+  c("", "Study", "Auckland", "Block", 
+    "Doran", "Gamsu", "Morrison", "Papageorgiou", 
+    "Tauesch", NA, "Summary"),
+  c("Deaths", "(steroid)", "36", "1", 
+    "4", "14", "3", "1", "8", NA, NA),
+  c("Deaths", "(placebo)", "60", "5", 
+    "11", "20", "7", "7", 
+    "10", NA, NA),
+  c("", "OR", "0.58", "0.16", 
+    "0.25", "0.70", "0.35", "0.14", 
+    "1.02", NA, "0.53"))
+#données d'exemple 2
+
+data(HRQoL)
+clrs <- fpColors(box = "royalblue",line = "darkblue", summary = "royalblue")
+tabletext <- 
+  list(c(NA, rownames(HRQoL$Sweden)),
+       append(list(expression(beta)), sprintf("%.2f", HRQoL$Sweden[,"coef"])))
+
+forestplot(tabletext, 
+           rbind(rep(NA, 3), 
+                 HRQoL$Sweden),
+           col = clrs,
+           xlab = "EQ-5D index")
+
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r plots, echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE}
+#plot(pressure)
+#paged.print=TRUE
+
+ forestplot(tabletext1, zero=0,
+                   -cochrane_from_rmeta$mean,
+                   -cochrane_from_rmeta$lower,
+                   -cochrane_from_rmeta$upper,
+                   new_page = TRUE,
+                   is.summary=c(TRUE,TRUE,rep(FALSE,8),TRUE),
+                   clip=c(0.1,2.5),
+                   xlog=TRUE,
+                   col=fpColors(box="royalblue",line="darkblue", summary="royalblue"))
+## 2
+forestplot(tabletext, 
+           hrzl_lines = gpar(col = "#444444"),
+           cochrane_from_rmeta$mean,
+           cochrane_from_rmeta$lower,
+           cochrane_from_rmeta$upper,
+           new_page = TRUE,
+           is.summary = c(TRUE,TRUE,rep(FALSE,8),TRUE),
+           clip = c(log(0.088),log(2.5)), 
+           xlog = TRUE,
+           col = fpColors(box = "royalblue",
+                          line = "darkblue", 
+                          summary = "royalblue"))
+
+#3
+forestplot(tabletext, 
+           hrzl_lines = list("3" = gpar(lty = 2), 
+                             "11" = gpar(lwd = 1, columns = 1:4, col = "#000044")),
+           cochrane_from_rmeta$mean,
+           cochrane_from_rmeta$lower,
+           cochrane_from_rmeta$upper,new_page = TRUE,
+           is.summary = c(TRUE,TRUE,rep(FALSE,8),TRUE),
+           clip = c(0.1,2.5), 
+           xlog = TRUE,
+           col = fpColors(box = "royalblue",
+                          line = "darkblue",
+                          summary = "royalblue",
+                          hrz_lines = "#444444"),
+           vertices = TRUE)
+
+
+```
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
