@@ -1,11 +1,10 @@
 ##Importation des données
-don1<- read.table("R_OC/tab1.csv", sep = ";")
+don1<- read.table("D:/MASTER/OneDrive - Université Mohammed 6 des Sciences de la Santé/COURS_ONLINE/OPEN_CLASSROOM/INITIATION_R/tab1.csv", sep = ";")
 don1
 getwd()
 
 df1=read.table("D:/MASTER/OneDrive - Université Mohammed 6 des Sciences de la Santé/COURS_ONLINE/OPEN_CLASSROOM/INITIATION_R/R_OC/df1.txt", sep=";", header = TRUE)
 summary(df1)
-
 
 
 ##EXO DATA CAMP 27/12/2021
@@ -60,20 +59,20 @@ num_matrix <- matrix(1:9, byrow = TRUE, nrow = 3)
 big_matrix <- cbind(num_matrix, rowSums(num_matrix))
 big_matrix
 
+#Datacamp 2022/01/04
+
+# Construct star_wars_matrix
+box_office <- c(460.998, 314.4, 290.475, 247.900, 309.306, 165.8)
+region <- c("US", "non-US")
+titles <- c("A New Hope", 
+            "The Empire Strikes Back", 
+            "Return of the Jedi")
+
+star_wars_matrix <- matrix(box_office, 
+                           nrow = 3, byrow = TRUE,
+                           dimnames = list(titles, region))
+
+# Calculate worldwide box office figures
+worldwide_vector <- 
 
 
-# Poker and roulette winnings from Monday to Friday:
-poker_vector <- c(140, -50, 20, -120, 240)
-roulette_vector <- c(-24, -50, 100, -350, 10)
-days_vector <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
-names(poker_vector) <- days_vector
-names(roulette_vector) <- days_vector
-
-total_vector <- cbind(poker_vector, roulette_vector)
-total_vector
-# Define a new variable based on a selection
-poker_wednesday <- sum(poker_vector[3],roulette_vector[3])
-poker_wednesday
-
-poker_midweek <- poker_vector[2:4]
-poker_midweek
